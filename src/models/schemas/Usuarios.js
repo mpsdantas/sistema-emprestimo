@@ -10,4 +10,4 @@ const usuarioSchema = new Schema({
     tipoUsuario: String 
 });
 
-module.export = mongoose.model('Usuarios', usuarioSchema);
+mongoose.model('Usuarios', usuarioSchema);

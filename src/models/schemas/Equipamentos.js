@@ -10,4 +10,4 @@ const equipamentosSchema = new Schema({
     codigo: String
 });
 
-module.export = mongoose.model('Equipamentos', equipamentosSchema);
+mongoose.model('Equipamentos', equipamentosSchema);

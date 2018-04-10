@@ -13,4 +13,4 @@ const emprestimosSchema = new Schema({
     data_devolucao:  Date 
 });
 
-module.export = mongoose.model('Emprestimos', emprestimosSchema);
+mongoose.model('Emprestimos', emprestimosSchema);
