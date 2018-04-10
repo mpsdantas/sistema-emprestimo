@@ -27,7 +27,7 @@ const app = express();
 
 //  Setando as variáveis 'view engine' e 'view' do express.
 app.set('view engine', 'ejs');
-app.set('views','./src/views');
+app.set('views','./src/views/');
 
 //  Configurando o middleware do express.static.
 app.set(express.static(path.join(__dirname, '../src/public')));
@@ -54,7 +54,6 @@ consign()
 	.include('src/models')
 	.then('src/controllers')
 	.then('src/routes')
-	.then('src/views')
 	.into(app);
 
 //  Conecta com o banco de dados e lida com problemas de conexão
