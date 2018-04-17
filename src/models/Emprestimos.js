@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const emprestimosSchema = new Schema({ 
     status: Boolean, 
-    nome_dono: String,
-    nome_usuario_emprestado: String,
-    itens_emprestados: [{
-        nome_equip: String,
-        qntd_emprestada: Number
+    nomeDono: String,
+    nomeUsuarioEmprestado: String,
+    itensEmprestados: [{
+        nomeEquip: String,
+        qntdEmprestada: Number
     }],
-    data_emprestimo: Date,
-    data_devolucao:  Date 
+    dataEmprestimo: Date,
+    dataDevolucao:  Date 
 });
 
 mongoose.model('Emprestimos', emprestimosSchema);
