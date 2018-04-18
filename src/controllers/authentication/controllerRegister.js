@@ -15,12 +15,17 @@ exports.makeRegister = async (application, req, res) =>{
         res.status(200).json({status:false,erros:erros});
         return;
     }
+
     const findUser = await Usuario.findOne({email:req.body.email});
-    if(findUser) return res.status(200).json({staus:false, msg:"Erro ao criar usuário, e-mail já cadastrado."});
+    const erroUsuario = [{ status: false, msg: "Usuário já cadastrado no sistema." }];
+    if(findUser) return res.status(200).json({status:false,erros:erroUsuario});
+    
     const senhaCriptogafada = await crypto.createHash("md5").update(req.body.senha).digest("hex");
     req.body.senha = senhaCriptogafada;
+
     const newUser = new Usuario(req.body);
     await newUser.save();
-    res.status(200).json({ sucesso: true, msg: "Usuário criado com sucesso." });
+    
+    res.status(200).json({ status: true, msg: "Usuário criado com sucesso." });
     return;
 };

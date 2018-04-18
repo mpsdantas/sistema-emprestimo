@@ -17,10 +17,10 @@ exports.makeLogin = async (application, req, res) => {
     req.body.senha = senhaCriptogafada;
 
     const findUser = await Usuario.findOne(req.body);
-    if(!findUser) return res.status(200).json({staus:false, msg:"Usuário ou senha inválidos."});
+    if(!findUser) return res.status(200).json({status:false, msg:"Usuário ou senha errados."});
     req.session.statusLoginUser = true;
     req.session.nome = findUser.nome;
     req.session.sobrenome = findUser.sobrenome;
     req.session.email = findUser.email;
-    return res.status(200).json({staus:true, msg:"Login autorizado."});
+    return res.status(200).json({status:true, msg:"Login autorizado."});
 }
