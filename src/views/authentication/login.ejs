@@ -9,8 +9,8 @@
 		<link href="/css/styles.css" rel="stylesheet">
 		<link rel="icon" href="/img/nav-brand.png">
 		<!--[if lt IE 9]>
-		<script src="js/html5shiv.js"></script>
-		<script src="js/respond.min.js"></script>
+		<script src="/js/html5shiv.js"></script>
+		<script src="/js/respond.min.js"></script>
 		<![endif]-->
 	</head>
 	<body>
@@ -27,6 +27,9 @@
 							</div>
 						</div>
 						<div class="panel-body">
+							<div id="mensagens">
+								
+							</div>
 							<form id="formLogin" role="form">
 								<fieldset>
 									<div class="form-group">
@@ -61,7 +64,16 @@
 							senha
 						},
 						success: function(data){
-							console.log(data);
+							$('#mensagens').empty();
+							if(!data.status){
+								let html = `<div class="alert alert-danger alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<center>${data.msg}</center>
+								</div>`;
+								$('#mensagens').append(html);
+								return;
+							}
+							window.location.href = '/dashboard/index';
 						},
 						error: function(XMLHttpRequest, textStatus, errorThrown){
 							alert("Status: " + textStatus); alert("Error: " + errorThrown);
