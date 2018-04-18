@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Sistema emprestimo - Login</title>
+		<link href="/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/css/datepicker3.css" rel="stylesheet">
+		<link href="/css/styles.css" rel="stylesheet">
+		<link rel="icon" href="/img/nav-brand.png">
+		<!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+		<script src="js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+					<div class="login-panel panel panel-default">
+						<div class="panel-heading">
+							<!-- Sem ideia para texto :) -->
+						</div>
+						<div class="row">
+							<div class="col-xs-offset-3 col-xs-6 col-md-offset-4 col-md-4">
+								<img src="/img/nav-brand.png" class="img img-responsive" alt="">
+							</div>
+						</div>
+						<div class="panel-body">
+							<form id="formLogin" role="form">
+								<fieldset>
+									<div class="form-group">
+										<input class="form-control" id="email" placeholder="E-mail" name="email" type="email" autofocus="" required>
+									</div>
+									<div class="form-group">
+										<input class="form-control" id="senha" placeholder="Senha" name="senha" type="password" value="" required>
+									</div>
+									<button type="submit" class="btn btn-primary btn-block">Login</button>
+								</fieldset>
+							</form>
+							<hr>
+							<p>Não tem conta? <a href="/authentication/register">Cadastre-se</a></p>
+						</div>
+					</div>
+				</div><!-- /.col-->
+			</div><!-- /.row -->
+		</div>	
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<script src="/js/bootstrap.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('#formLogin').submit(function(event){
+					event.preventDefault();
+					let email = $('#email').val();
+					let senha = $('#senha').val();
+					$.ajax({
+						url:'/authentication/login',
+						type:'post',
+						data:{
+							email,
+							senha
+						},
+						success: function(data){
+							console.log(data);
+						},
+						error: function(XMLHttpRequest, textStatus, errorThrown){
+							alert("Status: " + textStatus); alert("Error: " + errorThrown);
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
