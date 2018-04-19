@@ -9,6 +9,7 @@ const emprestimosSchema = new Schema({
         nomeEquip: String,
         qntdEmprestada: Number
     }],
+    observacao: String,
     dataEmprestimo: Date,
     dataDevolucao:  Date 
 });
