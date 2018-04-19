@@ -30,12 +30,8 @@ app.set('view engine', 'ejs');
 app.set('views','./src/views/');
 
 //  Configurando o middleware do express.static.
-<<<<<<< HEAD
-app.use(express.static(path.join(__dirname, '../src/public/')));
-=======
 app.use(express.static('./src/public'));
 
->>>>>>> 5752608f8c1a62f7ec0ff05a3221bc3eecc42f93
 //  Configurando o middleware do body-parser.
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
