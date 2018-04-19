@@ -29,82 +29,119 @@
 				<li class="active">Novo Equipamento</li>
 			</ol>
 		</div><!--/.row-->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-11 col-md-11">
-                   <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Formulário para cadastro de equipamento
-                            <ul class="pull-right panel-settings panel-button-tab-right">
-                                <li class="dropdown"><a class="pull-right dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <em class="fa fa-cogs"></em>
-                                </a>
-                                    <ul class="dropdown-menu dropdown-menu-right">
-                                        <li>
-                                            <ul class="dropdown-settings">
-                                                <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 1
-                                                </a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 2
-                                                </a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="#">
-                                                    <em class="fa fa-cog"></em> Settings 3
-                                                </a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span></div>
-                        <div class="panel-body">
-                            <form class="form-horizontal" action="" method="post">
-                                <fieldset>
-                                    <!-- Name input-->
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="name">Name</label>
-                                        <div class="col-md-9">
-                                            <input id="name" name="name" type="text" placeholder="Your name" class="form-control">
+        
+        <div class="row">
+            <div class="col-lg-11 col-md-11">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Formulário para cadastro de equipamento 
+                    </div>
+                    <br>
+                    <div class="panel-body">
+                        <form id="formEquipamento" class="form-horizontal">
+                            <fieldset>
+                                <!-- Nome input-->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-8">
+                                            <input id="nomeEquipamento" type="text" placeholder="Nome do equipamento" class="form-control" required>
                                         </div>
                                     </div>
-                                
-                                    <!-- Email input-->
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="email">Your E-mail</label>
-                                        <div class="col-md-9">
-                                            <input id="email" name="email" type="text" placeholder="Your email" class="form-control">
+                                </div>
+
+                                <!-- Quantidae total-->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-8">
+                                            <input id="qntdTotal" name="name" type="number" placeholder="Quantidade desse equipamento" class="form-control" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Categoria-->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-8" id="selectCategoria">
+                                            <select name="selectCategoria" class="form-control" id="sel1">
+                                                <option>Nenhuma categoria</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button id="btnNovaCategoria" class="btn btn-default"><span class="fa fa-plus-circle"></span></button>
                                         </div>
                                     </div>
                                     
-                                    <!-- Message body -->
-                                    <div class="form-group">
-                                        <label class="col-md-3 control-label" for="message">Your message</label>
-                                        <div class="col-md-9">
-                                            <textarea class="form-control" id="message" name="message" placeholder="Please enter your message here..." rows="5"></textarea>
+                                    <div class="row" id="novaCategoria">
+                                        <br>
+                                        <div class="col-md-offset-2 col-md-8">
+                                            <input id="novaCategoriaDado" type="text" placeholder="Digite o nome da nova categoria" class="form-control">
                                         </div>
                                     </div>
-                                    
-                                    <!-- Form actions -->
-                                    <div class="form-group">
-                                        <div class="col-md-12 widget-right">
-                                            <button type="submit" class="btn btn-default btn-md pull-right">Submit</button>
+                            
+                                </div>
+
+                                <!-- Código total-->
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-offset-2 col-md-8">
+                                            <input id="codigo" name="name" type="text" placeholder="Código do equipamento" class="form-control">
                                         </div>
                                     </div>
-                                </fieldset>
-                            </form>
-                        </div>
-                    </div> 
-                </disv>
-            </div><!--/.row-->
-        </div>
+                                </div>
+
+                                <!-- Form actions -->
+                                <div class="form-group">
+                                    <div class="col-md-12 widget-right">
+                                        <button type="submit" class="btn btn-default btn-md pull-right">Cadastrar equipamento</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div> 
+            </disv>
+        </div><!--/.row-->
+       
 		
     
     </div>	<!--/.main-->
 	
 	<script src="/js/jquery-1.11.1.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
-		
+	<script>
+        $(document).ready(function(){
+            let flagBotaoNovaCategoria = false;
+            $('#novaCategoria').hide();
+            $('#btnNovaCategoria').click(function(event){
+                event.preventDefault();
+                flagBotaoNovaCategoria = !flagBotaoNovaCategoria;
+                if(flagBotaoNovaCategoria) $('#novaCategoria').show();
+                else  $('#novaCategoria').hide();
+            });
+            $('#formEquipamento').submit(function(event){
+                event.preventDefault();
+                let nome = $('#nomeEquipamento').val();
+                let qntdTotal = $('#qntdTotal').val();
+                let categoria = $('select[name=selectCategoria]').val();
+                let novaCategoria = $('#novaCategoriaDado').val();
+                if(novaCategoria!=="")categoria=novaCategoria;
+                $.ajax({
+                   url:"/dashboard/novo-equipamento",
+                   type:"post",
+                   data:{
+                       nome,
+                       qntdTotal,
+                       categoria
+                   },
+                   success: function(data){
+                       console.log(data);
+                   },
+                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    } 
+                });
+            })
+        });
+    </script>	
 </body>
 </html>
