@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const equipamentosSchema = new Schema({ 
     nome: String,
-    id_dono: String,
-    qntd_total: Number,
-    qntd_disponivel: Number,
+    idDono: String,
+    qntdTotal: Number,
+    qntdDisponivel: Number,
     categoria: String,
     codigo: String
 });
