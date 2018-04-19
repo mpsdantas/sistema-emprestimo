@@ -34,7 +34,7 @@
             <div class="col-lg-11 col-md-11">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Formulário para cadastro de equipamento 
+                        Formulário para edição de equipamento 
                     </div>
                     <br>
                     <div class="panel-body">
@@ -45,7 +45,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-8">
-                                            <input id="nomeEquipamento" type="text" placeholder="Nome do equipamento" class="form-control">
+                                            <input value="<%=equipamentoSelecionado.nome%>" id="nomeEquipamento" type="text" placeholder="Nome do equipamento" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -54,7 +54,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-8">
-                                            <input id="qntdTotal" name="name" type="number" placeholder="Quantidade desse equipamento" class="form-control">
+                                            <input value="<%=equipamentoSelecionado.qntdTotal%>" id="qntdTotal" name="name" type="number" placeholder="Quantidade desse equipamento" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +66,11 @@
                                             <select name="selectCategoria" class="form-control" id="sel1">
                                                 <option = "Nenhuma categoria">Nenhuma categoria</option>
                                                 <%for(let i = 0; i<categorias.length; i++){%>
-                                                    <option value="<%=categorias[i]%>"><%=categorias[i]%></option>
+                                                    <%if(categorias[i]===equipamentoSelecionado.categoria){%>
+                                                        <option value="<%=categorias[i]%>" selected><%=categorias[i]%></option>
+                                                    <%}else{%>
+                                                        <option value="<%=categorias[i]%>"><%=categorias[i]%></option>
+                                                    <%}%>
                                                 <%}%>
                                             </select>
                                         </div>
@@ -88,7 +92,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-8">
-                                            <input id="codigo" name="name" type="text" placeholder="Código do equipamento" class="form-control">
+                                            <input value="<%=equipamentoSelecionado.codigo%>" id="codigo" name="name" type="text" placeholder="Código do equipamento" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +100,7 @@
                                 <!-- Form actions -->
                                 <div class="form-group">
                                     <div class="col-md-12 widget-right">
-                                        <button type="submit" class="btn btn-default btn-md pull-right">Cadastrar equipamento</button>
+                                        <button type="submit" class="btn btn-default btn-md pull-right">Concluir edição</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -128,6 +132,7 @@
             });
             $('#formEquipamento').submit(function(event){
                 event.preventDefault();
+                let id = `<%=equipamentoSelecionado._id%>`;
                 let nome = $('#nomeEquipamento').val();
                 let qntdTotal = $('#qntdTotal').val();
                 let categoria = $('select[name=selectCategoria]').val();
@@ -135,9 +140,10 @@
                 let codigo = $('#codigo').val();
                 if(novaCategoria!=="")categoria=novaCategoria;
                 $.ajax({
-                   url:"/dashboard/novo-equipamento",
+                   url:"/dashboard/editar-equipamento",
                    type:"post",
                    data:{
+                       id,
                        nome,
                        qntdTotal,
                        categoria,
@@ -157,9 +163,6 @@
                                 $('#mensagens').append(html);
                        }
                        if(data.status){
-                            $('#formEquipamento').each (function(){
-                                this.reset();
-                            });
                             let html = `<div class="alert alert-success alert-dismissible" role="alert">
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                         <center>${data.msg}</center>
