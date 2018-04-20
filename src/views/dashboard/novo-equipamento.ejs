@@ -38,13 +38,14 @@
                     </div>
                     <br>
                     <div class="panel-body">
+                        <div id="mensagens"></div>
                         <form id="formEquipamento" class="form-horizontal">
                             <fieldset>
                                 <!-- Nome input-->
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-8">
-                                            <input id="nomeEquipamento" type="text" placeholder="Nome do equipamento" class="form-control" required>
+                                            <input id="nomeEquipamento" type="text" placeholder="Nome do equipamento" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -53,7 +54,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-8">
-                                            <input id="qntdTotal" name="name" type="number" placeholder="Quantidade desse equipamento" class="form-control" required>
+                                            <input id="qntdTotal" name="name" type="number" placeholder="Quantidade desse equipamento" class="form-control">
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +64,10 @@
                                     <div class="row">
                                         <div class="col-md-offset-2 col-md-8" id="selectCategoria">
                                             <select name="selectCategoria" class="form-control" id="sel1">
-                                                <option>Nenhuma categoria</option>
+                                                <option = "Nenhuma categoria">Nenhuma categoria</option>
+                                                <%for(let i = 0; i<categorias.length; i++){%>
+                                                    <option value="<%=categorias[i]%>"><%=categorias[i]%></option>
+                                                <%}%>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
@@ -115,8 +119,12 @@
             $('#btnNovaCategoria').click(function(event){
                 event.preventDefault();
                 flagBotaoNovaCategoria = !flagBotaoNovaCategoria;
-                if(flagBotaoNovaCategoria) $('#novaCategoria').show();
-                else  $('#novaCategoria').hide();
+                if(flagBotaoNovaCategoria) {
+                    $('#novaCategoria').show();
+                }else {
+                    $('#novaCategoria').hide();
+                    $("#novaCategoriaDado").val('');
+                }
             });
             $('#formEquipamento').submit(function(event){
                 event.preventDefault();
@@ -134,7 +142,28 @@
                        categoria
                    },
                    success: function(data){
-                       console.log(data);
+                       if(data.erroForm){
+                            let erros = data.erros;
+                            let msg = "";
+                            for(let i=0; i< erros.length; i++){
+                                msg += erros[i].msg + '<br>';
+                            }
+                            let html = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <center>${msg}</center>
+                                        </div>`;
+                                $('#mensagens').append(html);
+                       }
+                       if(data.status){
+                            $('#formEquipamento').each (function(){
+                                this.reset();
+                            });
+                            let html = `<div class="alert alert-success alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <center>${data.msg}</center>
+                                        </div>`;
+                            $('#mensagens').append(html);
+                       }
                    },
                    error: function(XMLHttpRequest, textStatus, errorThrown) {
                         alert("Status: " + textStatus); alert("Error: " + errorThrown);
