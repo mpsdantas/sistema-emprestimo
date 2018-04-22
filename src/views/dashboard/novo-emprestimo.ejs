@@ -50,25 +50,36 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-offset-2 col-md-8">
-                                                <input id="nomeEquipamento" type="text" placeholder="Nome do equipamento" class="form-control">
+                                                <input id="emailEmprestimo" type="text" placeholder="Email do usuário que o equipamento será emprestado" class="form-control">
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- Quantidae total-->
-                                    <div class="form-group">
+                                    <div class="form-group" id="divResults">
                                         <div class="row">
-                                            <div class="col-md-offset-2 col-md-8">
-                                                <input id="qntdTotal" name="name" type="number" placeholder="Quantidade desse equipamento" class="form-control">
+                                            <div class="col-md-offset-2 col-md-8" id="resultadosPesquisa">
+
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- Código total-->
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-offset-2 col-md-8">
-                                                <input id="codigo" name="name" type="text" placeholder="Código do equipamento" class="form-control">
+                                                <input id="pesquisarEquipamento" class="form-control" type="text" placeholder="Nome ou código do equipamento">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="btnPesquisar" class="btn btn-default">
+                                                    <span class="fa fa-search"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Quantidae total-->
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-offset-2 col-md-8">
+                                                <input id="qntdTotal" name="name" type="number" placeholder="Quantidade a ser emprestada" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +87,7 @@
                                     <!-- Form actions -->
                                     <div class="form-group">
                                         <div class="col-md-12 widget-right">
-                                            <button type="submit" class="btn btn-default btn-md pull-right">Cadastrar equipamento</button>
+                                            <button type="submit" class="btn btn-default btn-md pull-right">Realizar emprestimo</button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -95,10 +106,84 @@
             <script src="/js/jquery-1.11.1.min.js"></script>
             <script src="/js/bootstrap.min.js"></script>
             <script>
+                function realizarEmprestimo(email, equipamento, qntdEquipamento) {
+                    $.ajax({
+                        url: "/dashboard/realizar-emprestimo",
+                        type: "post",
+                        data: {
+                            email,
+                            equipamento,
+                            qntdEquipamento
+                        },
+                        success: function (data) {
+                            if (data.erro) {
+                                let html = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <center>${data.msg}</center>
+                                                </div>`;
+                                $('#mensagens').append(html);
+                            }
+                            if(data.status){
+                                let html = `<div class="alert alert-success alert-dismissible" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <center>${data.msg}</center>
+                                                </div>`;
+                                $('#mensagens').append(html);
+                                $('#formEquipamento').each(function () {
+                                    this.reset();
+                                });
+                                return;
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                        }
+                    });
+                }
+
                 $(document).ready(function () {
-                   
+                    $('#divResults').hide();
+                    $('#btnPesquisar').click(function(event) {
+                        event.preventDefault();
+                        let valorPesquisa = $('#pesquisarEquipamento').val();
+                        $.ajax({
+                            url: "/dashboard/buscar-equipamento",
+                            type: "post",
+                            data: {
+                                valorPesquisa
+                            },
+                            success: function (data) {
+                                if(data.erro){
+                                    $('#resultadosPesquisa').empty();
+                                    let html = `<center><p>${data.msg}</p></center>`;
+                                    $('#divResults').show();
+                                    $('#resultadosPesquisa').append(html);
+                                    return;
+                                }
+                                let html = "";
+                                for(let i=0; i<data.length; i++){
+                                    html += `<div class="radio">
+                                                <label><input value="${data[i].nome}" type="radio" name="optradio">${data[i].nome}</label>
+                                            </div>`;
+                                }
+                                $('#resultadosPesquisa').empty();
+                                $('#divResults').show();
+                                $('#resultadosPesquisa').append(html);
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                            }
+                        });
+                    });
+                    $('#formEquipamento').submit(function (event) {
+                        event.preventDefault();
+                        $('#mensagens').empty();
+                        let email = $('#emailEmprestimo').val();
+                        let equipamento = $('input[name=optradio]:checked').val();
+                        let qntdEquipamento = $('#qntdTotal').val();
+                        realizarEmprestimo(email, equipamento, qntdEquipamento);
+                    }); 
                 });
             </script>
 </body>
-
 </html>
