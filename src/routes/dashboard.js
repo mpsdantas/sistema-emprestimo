@@ -13,10 +13,16 @@ module.exports = application => {
     application.get('/dashboard/editar-equipamento/:id', routerAnalizer.protectRouterUser, (req, res) =>{
         controllerDashboard.renderEditarEquipamento(application, req, res);
     });
+    application.get('/dashboard/novo-emprestimo', routerAnalizer.protectRouterUser, (req, res) => {
+        res.render('dashboard/novo-emprestimo');
+    });
     application.post('/dashboard/novo-equipamento', routerAnalizer.protectRouterUser, (req, res) => {
         controllerDashboard.makeCadastro(application, req, res);
     });
     application.post('/dashboard/editar-equipamento', routerAnalizer.protectRouterUser, (req, res) => {
         controllerDashboard.editarEquipamento(application, req, res);
+    });
+    application.delete('/dashboard/apagar-equipamento/', routerAnalizer.protectRouterUser, (req, res) =>{
+        controllerDashboard.removerEquipamento(application, req, res);
     });
 };
