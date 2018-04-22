@@ -26,7 +26,7 @@
 				<li><a href="/dasboard/index">
 					<em class="fa fa-home"></em>
 				</a></li>
-				<li class="active">Novo Equipamento</li>
+				<li class="active">Todos Equipamentos</li>
 			</ol>
 		</div><!--/.row-->
         
@@ -38,6 +38,7 @@
                     </div>
                     <br>
                     <div class="panel-body">
+                        <div id="mensagens"></div>
                         <%if(todosEquipamentos.length>0){%>
                             <div class="table-responsive">
                                 <table style="text-align: center;" class="table table-bordered">
@@ -81,6 +82,33 @@
         $(document).ready(function(){
             $('.editar').click(function(){
                 window.location.href = "/dashboard/editar-equipamento/" + this.value;
+            });
+            $('.apagar').click(function() {
+                if(confirm("Você deseja realmente excluir esse item? ")) {
+                    $.ajax({
+                        url: '/dashboard/apagar-equipamento/',
+                        type: 'delete',
+                        data: {
+                            id: this.value
+                        },
+                        success: function (data) {
+                            if (data.status) {
+                                location.reload();
+                                return;
+                            }
+                            if (data.erro) {
+                                let html = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <center>${data.msg}</center>
+                                        </div>`;
+                                $('#mensagens').append(html);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                        }
+                    });
+                } 
             });
         });
     </script>
