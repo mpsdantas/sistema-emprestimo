@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Equipamento = mongoose.model('Equipamentos');
 const ObjectId = require('mongodb').ObjectID;
 const methods = require('../methods');
+
 exports.renderEditarEquipamento = async (application, req, res) => {
     const equipamentoSelecionado = await Equipamento.findOne({_id: new ObjectId(req.params.id)});
     const categorias = await methods.getAllCategorias();
-    console.log(categorias);
     res.render('dashboard/editar-equipamento',{categorias, equipamentoSelecionado});
     return; 
 };

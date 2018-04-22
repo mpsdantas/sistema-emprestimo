@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Equipamento = mongoose.model('Equipamentos');
 const methods = require('../methods');
+
 exports.makeCadastro = async (application, req, res) => {
     const erros = methods.getErrorsEquipamentos(req, res);
     if(erros){
