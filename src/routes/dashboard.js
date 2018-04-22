@@ -22,6 +22,12 @@ module.exports = application => {
     application.post('/dashboard/editar-equipamento', routerAnalizer.protectRouterUser, (req, res) => {
         controllerDashboard.editarEquipamento(application, req, res);
     });
+    application.post('/dashboard/buscar-equipamento', routerAnalizer.protectRouterUser, (req, res)=>{
+        controllerDashboard.buscarEquipamento(application, req, res);
+    });
+    application.post('/dashboard/realizar-emprestimo', routerAnalizer.protectRouterUser, (req, res) => {
+        controllerDashboard.realizarEmprestimo(application, req, res);
+    });
     application.delete('/dashboard/apagar-equipamento/', routerAnalizer.protectRouterUser, (req, res) =>{
         controllerDashboard.removerEquipamento(application, req, res);
     });
