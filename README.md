@@ -1,9 +1,12 @@
 # LAR Loan System :page_with_curl: :pushpin:
  Loan system used by the Automation and Robotics Laboratory and its members. :nut_and_bolt:  :wrench:
-
+ 
 [![NPM](https://img.shields.io/badge/npm-v5.6.0-blue.svg?style=for-the-badge)](https://www.npmjs.com/) 
 [![NODE](https://img.shields.io/badge/node-v9.0.0-blue.svg?style=for-the-badge)](https://nodejs.org/en//)
 
+<p align="center"> 
+ <img src="http://www.natalnet.br/lar/wp-content/uploads/2016/09/Logo-lar.png">
+</p>
 
 ## Install
 
