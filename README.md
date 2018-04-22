@@ -1,7 +1,6 @@
 # LAR Loan System :page_with_curl: :pushpin:
  Loan system used by the Automation and Robotics Laboratory and its members. :nut_and_bolt:  :wrench:
 
-[![GitHub license](https://img.shields.io/github/license/mpsdantas/boilerplate-node.svg?style=for-the-badge)](https://github.com/mpsdantas/boilerplate-node/blob/master/LICENSE) 
 [![NPM](https://img.shields.io/badge/npm-v5.6.0-blue.svg?style=for-the-badge)](https://www.npmjs.com/) 
 [![NODE](https://img.shields.io/badge/node-v9.0.0-blue.svg?style=for-the-badge)](https://nodejs.org/en//)
 
