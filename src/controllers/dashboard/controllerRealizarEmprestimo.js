@@ -17,6 +17,7 @@ exports.realizarEmprestimo = async (application, req, res) =>{
         emailUsuarioEmprestado: req.body.email,
         itemEmprestado: {
             nomeEquip: buscaEquipamento.nome,
+            idEquipamento: buscaEquipamento._id,
             qntdEmprestada: req.body.qntdEquipamento
         },
         dataEmprestimo: new Date() 
