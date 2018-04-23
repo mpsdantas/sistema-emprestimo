@@ -2,7 +2,7 @@ const routerAnalizer = require('../controllers/protectRouter');
 const controllerDashboard = require('../controllers/dashboard');
 module.exports = application => {
     application.get('/dashboard/index',routerAnalizer.protectRouterUser, (req,res) => {
-        res.render('dashboard/index');
+        controllerDashboard.viewDashboard(application, req, res);
     });  
     application.get('/dashboard/novo-equipamento', routerAnalizer.protectRouterUser, (req, res) => {
         controllerDashboard.renderEquipamentos(application, req, res);  
@@ -15,6 +15,12 @@ module.exports = application => {
     });
     application.get('/dashboard/novo-emprestimo', routerAnalizer.protectRouterUser, (req, res) => {
         res.render('dashboard/novo-emprestimo');
+    });
+    application.get('/dashboard/todos-emprestimos', routerAnalizer.protectRouterUser, (req, res) => {
+        controllerDashboard.viewTodosEmprestimos(application, req, res);
+    });
+    application.get('/dashboard/sair', routerAnalizer.protectRouterUser, (req, res) => {
+        controllerDashboard.destroySession(application, req, res);
     });
     application.get('/dashboard/realizar-devolucao', routerAnalizer.protectRouterUser, (req, res) => {
         controllerDashboard.renderRealizarDevolucao(application, req, res);
