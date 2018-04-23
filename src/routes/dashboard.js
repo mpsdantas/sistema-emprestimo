@@ -16,6 +16,15 @@ module.exports = application => {
     application.get('/dashboard/novo-emprestimo', routerAnalizer.protectRouterUser, (req, res) => {
         res.render('dashboard/novo-emprestimo');
     });
+    application.get('/dashboard/realizar-devolucao', routerAnalizer.protectRouterUser, (req, res) => {
+        controllerDashboard.renderRealizarDevolucao(application, req, res);
+    });
+    application.post('/dashboard/concluir-devolucao', routerAnalizer.protectRouterUser, (req, res) => {
+        controllerDashboard.concluirDevolucao(application, req, res);
+    });
+    application.post('/dashboard/buscar-emprestimos', routerAnalizer.protectRouterUser, (req, res) => {
+        controllerDashboard.buscarEmprestimos(application, req, res);
+    });
     application.post('/dashboard/novo-equipamento', routerAnalizer.protectRouterUser, (req, res) => {
         controllerDashboard.makeCadastro(application, req, res);
     });

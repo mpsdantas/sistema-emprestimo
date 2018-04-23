@@ -5,6 +5,7 @@ const controlerEditarEquipamento = require('./controllerEditarEquipamento');
 const controllerRemoverEquipamento = require('./controllerRemoverEquipamento');
 const controllerBuscarEquipamento = require('./controllerBuscarEquipamento');
 const controllerRealizarEmprestimo = require('./controllerRealizarEmprestimo');
+const controllerRealizarDevolucao = require('./controllerRealizarDevolucao');
 module.exports = {
     ...controlerCadastroNovoEquipamento, 
     ...controllerViewCadastroEquipamentos,
@@ -12,5 +13,6 @@ module.exports = {
     ...controlerEditarEquipamento,
     ...controllerRemoverEquipamento,
     ...controllerBuscarEquipamento,
-    ...controllerRealizarEmprestimo
+    ...controllerRealizarEmprestimo,
+    ...controllerRealizarDevolucao
 };

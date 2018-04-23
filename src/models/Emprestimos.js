@@ -7,6 +7,7 @@ const emprestimosSchema = new Schema({
     emailUsuarioEmprestado: String,
     itemEmprestado:{
         nomeEquip: String,
+        idEquipamento: String,
         qntdEmprestada: Number
     },
     dataEmprestimo: Date,
