@@ -6,7 +6,7 @@ exports.buscarEquipamento = async (application, req, res) =>{
         res.status(200).json({erro:true, msg:"Insira algum valor para realizar a pesquisa"});
         return;
     }
-    const todosEquipamentos = await Equipamento.find({});
+    const todosEquipamentos = await Equipamento.find({idDono:req.session._id});
     const equipamentoFiltrado = matchSorter(todosEquipamentos, req.body.valorPesquisa, { keys: ['nome', 'codigo'] });
     res.status(200).json(equipamentoFiltrado);
 }

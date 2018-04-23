@@ -9,6 +9,7 @@ exports.makeCadastro = async (application, req, res) => {
         return;
     }
     req.body.qntdDisponivel = req.body.qntdTotal;
+    req.body.idDono = req.session._id;
     const novoEquipamento = new Equipamento(req.body);
     await novoEquipamento.save();
 

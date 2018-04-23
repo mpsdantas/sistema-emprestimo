@@ -15,6 +15,7 @@ exports.makeLogin = async (application, req, res) => {
     req.body.senha = senhaCriptogafada;
     const findUser = await Usuario.findOne(req.body);
     if(!findUser) return res.status(200).json({status:false, msg:"Usuário ou senha errados."});
+    req.session._id = findUser._id;
     req.session.statusLoginUser = true;
     req.session.nome = findUser.nome;
     req.session.sobrenome = findUser.sobrenome;
