@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema emprestimo - Dashboard</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/datepicker3.css" rel="stylesheet">
+    <link href="/css/styles.css" rel="stylesheet">
+    <link href="/css/personal.css" rel="stylesheet">
+    <link rel="icon" href="/img/nav-brand.png">
+    <!--Custom Font-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <!--[if lt IE 9]>
+	<script src="/js/html5shiv.js"></script>
+	<script src="/js/respond.min.js"></script>
+	<![endif]-->
+</head>
+
+<body>
+    <% include components/navbar %>
+        <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+            <div class="row">
+                <ol class="breadcrumb">
+                    <li>
+                        <a href="/dasboard/index">
+                            <em class="fa fa-home"></em>
+                        </a>
+                    </li>
+                    <li class="active">Novo Equipamento</li>
+                </ol>
+            </div>
+            <!--/.row-->
+
+            <div class="row">
+                <div class="col-lg-11 col-md-11">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pesquisa de emprestimos
+                        </div>
+                        <br>
+                        <div class="panel-body">
+                            <div id="mensagens"></div>
+                            <form id="formEprestimo" class="form-horizontal">
+                                <fieldset>
+                                    <!-- Código total-->
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <input id="emailUser" name="name" type="email" placeholder="E-mail do usuário que o item foi emprestado" class="form-control">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-default btn-lg">
+                                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                    </disv>
+                </div>
+                <!--/.row-->
+            </div>
+            <!--/.main-->
+            <script src="/js/jquery-1.11.1.min.js"></script>
+            <script src="/js/bootstrap.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    
+                    $('#formEprestimo').submit(function(event) {
+                        event.preventDefault();
+                        let emailUser = $('#emailUser').val();
+                        $.ajax({
+                            url: "/dashboard/buscar-emprestimos",
+                            type: "post",
+                            data: {
+                                emailUser
+                            },
+                            success: function (data) {
+                                if(data.erro){
+                                    $('#mensagens').empty();
+                                    let html = `<div class="alert alert-danger alert-dismissible" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <center>${data.msg}</center>
+                                        </div>`;
+                                    $('#mensagens').append(html);
+                                    return;
+                                }
+                                $('#mensagens').empty();
+                                let emprestimos = data.dados;
+                                if(emprestimos.length>0){
+                                    let html = `<div class="table-responsive">
+                                                    <table style="text-align: center;" class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nome do equipamento</th>
+                                                                <th>Quantidade emprestada</th>
+                                                                <th>Devolver</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>`;
+                                    for(let i = 0; i<emprestimos.length; i++){
+                                        html +=`<tr><td>${emprestimos[0].itemEmprestado.nomeEquip}</td>
+                                                <td>${emprestimos[0].itemEmprestado.qntdEmprestada}</td>
+                                                <td>
+                                                    <button value="${emprestimos[0]._id}" class="devolver btn btn-success"><i class="fa fa-edit"></i></button>
+                                                </td>
+                                            </tr>`;
+                                    }
+                                    html += ` </tbody></table></div>`;     
+                                    $('#mensagens').append(html);
+                                    $('.devolver').click(function (event) {
+                                        event.preventDefault();
+                                        let id = this.value;
+                                        $.ajax({
+                                            url: "/dashboard/concluir-devolucao",
+                                            type: "post",
+                                            data: {
+                                                id
+                                            },
+                                            success: function (data) {
+                                                if(data.status){
+                                                    $('#mensagens').empty();
+                                                    let htmlSuccess = `<div class="alert alert-success alert-dismissible" role="alert">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                    <center>${data.msg}</center>
+                                                    </div>`;
+                                                    $('#mensagens').append(htmlSuccess);
+                                                }
+                                            },
+                                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                                            }
+                                        });
+                                    });
+                                    return;    
+                                }else{
+                                    let html = `<center><p> Nenhum emprestimo encontrado </p></center><br>`;
+                                    $('#mensagens').append(html);
+                                    return;
+                                }
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                            }
+                        });
+                    });
+                });
+            </script>
+</body>
+
+</html>
