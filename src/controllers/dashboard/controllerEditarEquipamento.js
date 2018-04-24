@@ -5,7 +5,7 @@ const methods = require('../methods');
 
 exports.renderEditarEquipamento = async (application, req, res) => {
     const equipamentoSelecionado = await Equipamento.findOne({_id: new ObjectId(req.params.id)});
-    const categorias = await methods.getAllCategorias();
+    const categorias = await methods.getAllCategorias(req);
     res.render('dashboard/editar-equipamento',{categorias, equipamentoSelecionado});
     return; 
 };
